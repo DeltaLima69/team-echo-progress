@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Team Echo Mod Progress</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a field-board — one dark header band, then a grid of area panels, each a list of items with a status tag. */
+:root {
+  --bg: #eef1f5; --panel: #ffffff; --ink: #1b2129; --muted: #5d6877; --line: #d6dce4;
+  --blue: #1f5fbf; --blue-soft: #e3ecfa; --band: #1d232b; --band-ink: #f3f6fa;
+  --live: #1d7a46; --live-bg: #e2f3e9; --test: #1f5fbf; --test-bg: #e3ecfa;
+  --work: #9a6400; --work-bg: #fbefd8; --plan: #5d6877; --plan-bg: #eceff3; --idea: #6b4fa8; --idea-bg: #eee8f8;
+  --display: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --body: Inter, "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15191f; --panel: #1e242c; --ink: #e8edf3; --muted: #9aa6b5; --line: #2e3640;
+  --blue: #6ea2f0; --blue-soft: #1d2b40; --band: #0f1216; --band-ink: #f3f6fa;
+  --live: #5fcf8e; --live-bg: #16301f; --test: #7fb0f5; --test-bg: #1b2a3f;
+  --work: #e9b45a; --work-bg: #33280f; --plan: #a5b0bd; --plan-bg: #262d36; --idea: #b9a2ee; --idea-bg: #2a2340;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #15191f; --panel: #1e242c; --ink: #e8edf3; --muted: #9aa6b5; --line: #2e3640;
+  --blue: #6ea2f0; --blue-soft: #1d2b40; --band: #0f1216; --band-ink: #f3f6fa;
+  --live: #5fcf8e; --live-bg: #16301f; --test: #7fb0f5; --test-bg: #1b2a3f;
+  --work: #e9b45a; --work-bg: #33280f; --plan: #a5b0bd; --plan-bg: #262d36; --idea: #b9a2ee; --idea-bg: #2a2340;
+  color-scheme: dark; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { background: var(--band); color: var(--band-ink); }
+header .wrap { padding-block: 28px 24px; display: grid; gap: 14px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #8fb6f2; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(34px, 6vw, 52px); line-height: 1; margin: 0; letter-spacing: .01em; text-wrap: balance; }
+.lede { margin: 0; max-width: 62ch; color: #c9d2dd; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 12.5px; color: #aab6c4; }
+.meta b { color: var(--band-ink); font-weight: 500; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 18px 6px; }
+.chip { font: 600 13px var(--body); border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 6px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+.chip[aria-pressed="true"] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); }
+.chip:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.legend { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; padding-block: 14px 40px; align-items: start; }
+section.area { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 16px 8px; min-width: 0; }
+.area h2 { font-family: var(--display); font-weight: 600; font-size: 24px; line-height: 1.1; margin: 0 0 4px; letter-spacing: .01em; }
+.area p.sum { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
+ul.items { list-style: none; margin: 0; padding: 0; }
+ul.items li { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 9px 0; border-top: 1px solid var(--line); align-items: start; }
+.it { min-width: 0; }
+.it .t { font-weight: 500; }
+.it .n { display: block; font-size: 13px; color: var(--muted); }
+.tag { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+.s-live { color: var(--live); background: var(--live-bg); } .d-live { background: var(--live); }
+.s-test { color: var(--test); background: var(--test-bg); } .d-test { background: var(--test); }
+.s-work { color: var(--work); background: var(--work-bg); } .d-work { background: var(--work); }
+.s-plan { color: var(--plan); background: var(--plan-bg); } .d-plan { background: var(--plan); }
+.s-idea { color: var(--idea); background: var(--idea-bg); } .d-idea { background: var(--idea); }
+.empty { color: var(--muted); font-size: 14px; padding: 10px 0; }
+footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; }
+@media (prefers-reduced-motion: no-preference) { section.area { transition: opacity .15s; } }
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Team Echo &middot; SCUM server</div>
+    <h1>Mod Progress</h1>
+    <p class="lede">What we're building for the server, and where each piece stands. Things marked Testing are currently on the server, available to testers and not yet ready for all players.</p>
+    <div class="meta"><span>Updated <b id="upd"></b></span><span>Next test: <b id="next"></b></span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="controls" id="filters" role="group" aria-label="Show by status"></div>
+  <p class="legend">Live = in the game for everyone. Testing = built, being tried by testers. In progress = being made. Planned = agreed, not started. Idea = being talked about.</p>
+  <div class="grid" id="grid"></div>
+</main>
+<footer class="wrap">Plans change as testing goes. Dates aren't promised.</footer>
+
+<script>
+const DATA = {
+  updated: "Nov 19, 2026",
+  next: "Test 2 (after today's SCUM update)",
+  areas: [
+    { name: "UH-1 Huey helicopter", sum: "A flyable Huey with its own controls, cockpit and sound. Testers only for now.", items: [
+      ["Flying, startup and engine sound", "test", "Full spool-up before takeoff"],
+      ["Cockpit dash lamps and power lights", "test", "Rebuilt so they sit on the panel"],
+      ["New window frame", "test", "Clean metal frame around the windshield"],
+      ["Looks right in shade", "test", "No more solid black silhouette"],
+      ["Call the Huey to you and send it home", "test", "It flies itself to you, then back to the Kill Squad roof"],
+      ["Air Force gray paint", "plan", ""],
+      ["Heater that keeps everyone inside warm", "idea", ""]
+    ]},
+    { name: "Companions", sum: "Pets and a mech that follow you, fight for you and ride with you.", items: [
+      ["Non-combat and combat wolf companions", "test", "Follow, stay, guard, ride in a Rager bed and the Huey"],
+      ["Companion menu", "test", "Hold F on your companion. Includes Go home"],
+      ["Homes for companions", "test", "They go home when you log out and come back when you join"],
+      ["Mech companion", "test", "Built at the Kill Squad machine from scrap and parts"],
+      ["Mech upgrade", "test", "Lights, kick and arm cannon"],
+      ["Mech aims and fires its guns properly", "work", "Gun fire is visible and audible now; aiming is next"],
+      ["Mechs stay out of the trade post and HQ", "plan", "They wait in line at the sale lot"],
+      ["Carry a wolf as an inventory item", "idea", ""]
+    ]},
+    { name: "Kill Squad HQ", sum: "Patrols and services at the Kill Squad compound.", items: [
+      ["Two guards with dogs patrol the HQ", "test", "Opposite directions, cross at the front and back"],
+      ["Guards fire real visible, audible shots", "test", ""],
+      ["Guards take cover and move like real fighters", "work", ""],
+      ["Clear the tall grass inside the zone", "plan", "The latest SCUM update may make this easier"]
+    ]},
+    { name: "Kill Squad machines", sum: "Vending machines that run on Kill Squad credits.", items: [
+      ["Machines at the HQ", "test", "Look at one to see its name, tap F to open"],
+      ["Companion shop", "test", "Buy a wolf companion, build or upgrade a mech"],
+      ["Exchange: sell guns for credits", "test", "Approved gun list still being set"],
+      ["Dark and default machine colors", "test", ""],
+      ["Player vending machine", "work", "Players list their own items for sale"],
+      ["Used vehicle sale lot", "plan", ""]
+    ]},
+    { name: "Trade Post", sum: "Vendors and life at the player trade post.", items: [
+      ["Bartender", "live", "Buy and sell drinks"],
+      ["Armory and vehicle vendors", "work", "Fixing their buy lists"],
+      ["What each vendor sells", "plan", "Being decided"],
+      ["Farmer's market", "idea", "Sell produce in bulk, buy food, with custom quests"],
+      ["Vendor quest books", "plan", ""]
+    ]},
+    { name: "Around the server", sum: "Smaller systems that make the base feel alive.", items: [
+      ["Midnight fireworks (Night Show)", "live", ""],
+      ["Base power and lights stay on", "test", "Fix for a short lag spike when someone joins"],
+      ["Garden care", "work", "Tending and replanting"],
+      ["Four scheduled bonfires", "work", ""],
+      ["Wall writing and billboards", "work", ""],
+      ["Radio for your squad", "idea", "Private long-range voice for 2 or more players"],
+      ["Cell phone, texting and small map", "work", ""],
+      ["Spawn hub with quest book", "plan", ""],
+      ["Abandoned property recovery", "plan", ""],
+      ["Hellrider Rager", "idea", ""]
+    ]},
+    { name: "Team Echo launcher", sum: "One launcher that keeps your mods up to date.", items: [
+      ["Self-updating launcher", "live", "Update & Launch gets you the newest files"],
+      ["Test features list for testers", "live", "Shows what to try and what to report"],
+      ["Report a problem from the launcher", "work", ""]
+    ]}
+  ]
+};
+const STATUS = { live: "Live", test: "Testing", work: "In progress", plan: "Planned", idea: "Idea" };
+const ORDER = ["live", "test", "work", "plan", "idea"];
+let show = "all";
+try { const s = localStorage.getItem("te-filter"); if (s && (s === "all" || STATUS[s])) show = s; } catch (e) {}
+document.getElementById("upd").textContent = DATA.updated;
+document.getElementById("next").textContent = DATA.next;
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+function counts() { const c = { all: 0 }; ORDER.forEach(k => c[k] = 0); DATA.areas.forEach(a => a.items.forEach(i => { c[i[1]]++; c.all++; })); return c; }
+function renderFilters() {
+  const c = counts();
+  const f = document.getElementById("filters");
+  f.innerHTML = ["all"].concat(ORDER).map(k => `<button type="button" class="chip" id="f-${k}" data-k="${k}" aria-pressed="${show === k}">${k === "all" ? "" : `<span class="dot d-${k}"></span>`}${k === "all" ? "Everything" : STATUS[k]} <span style="opacity:.6">${c[k]}</span></button>`).join("");
+  f.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { show = b.dataset.k; try { localStorage.setItem("te-filter", show); } catch (e) {} renderFilters(); renderGrid(); }));
+}
+function renderGrid() {
+  const g = document.getElementById("grid");
+  g.innerHTML = DATA.areas.map(a => {
+    const items = a.items.filter(i => show === "all" || i[1] === show);
+    if (!items.length && show !== "all") return "";
+    return `<section class="area"><h2>${esc(a.name)}</h2><p class="sum">${esc(a.sum)}</p><ul class="items">${items.map(i => `<li><div class="it"><span class="t">${esc(i[0])}</span>${i[2] ? `<span class="n">${esc(i[2])}</span>` : ""}</div><span class="tag s-${i[1]}">${STATUS[i[1]]}</span></li>`).join("")}</ul></section>`;
+  }).join("") || `<p class="empty">Nothing with this status right now.</p>`;
+}
+renderFilters(); renderGrid();
+</script>
+
+</body>
+</html>
