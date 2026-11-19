@@ -47,10 +47,23 @@ h1 { font-family: var(--display); font-weight: 700; font-size: clamp(34px, 6vw, 
 .chip:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
 .legend { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; padding-block: 14px 40px; align-items: start; }
-section.area { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 16px 8px; min-width: 0; }
-.area h2 { font-family: var(--display); font-weight: 600; font-size: 24px; line-height: 1.1; margin: 0 0 4px; letter-spacing: .01em; }
-.area p.sum { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
+/* (v2) Darren 11/19: a 3-across grid of areas, each showing its % complete; click one to drop down its list */
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding-block: 14px 40px; align-items: start; }
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+section.area { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; min-width: 0; overflow: hidden; }
+section.area.open { border-color: var(--blue); }
+.head { width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; align-items: center; padding: 14px 16px 12px; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.head:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+.head h2 { font-family: var(--display); font-weight: 600; font-size: 23px; line-height: 1.1; margin: 0; letter-spacing: .01em; min-width: 0; }
+.pct { font-family: var(--display); font-weight: 700; font-size: 26px; line-height: 1; color: var(--blue); font-variant-numeric: tabular-nums; }
+.bar { grid-column: 1 / -1; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--blue); border-radius: 3px; }
+.sub { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; color: var(--muted); }
+.chev { transition: transform .15s; display: inline-block; }
+section.area.open .chev { transform: rotate(180deg); }
+.body { padding: 0 16px 8px; }
+.area p.sum { margin: 0 0 8px; color: var(--muted); font-size: 14px; }
 ul.items { list-style: none; margin: 0; padding: 0; }
 ul.items li { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 9px 0; border-top: 1px solid var(--line); align-items: start; }
 .it { min-width: 0; }
@@ -77,16 +90,15 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; }
 </header>
 
 <main class="wrap">
-  <div class="controls" id="filters" role="group" aria-label="Show by status"></div>
-  <p class="legend">Live = in the game for everyone. Testing = built, being tried by testers. In progress = being made. Planned = agreed, not started. Idea = being talked about.</p>
+  <p class="legend" style="margin-top:18px">Click an area to see what's in it. Live = in the game for everyone. Testing = built, being tried by testers. In progress = being made. Planned = agreed, not started. Idea = being talked about. The percentage is how far along the area's pieces are (live counts fully, testing most of the way, in progress partly).</p>
   <div class="grid" id="grid"></div>
 </main>
 <footer class="wrap">Plans change as testing goes. Dates aren't promised.</footer>
 
 <script>
 const DATA = {
-  updated: "Nov 19, 2026",
-  next: "Test 2 (after today's SCUM update)",
+  updated: "Nov 19, 2026 (evening)",
+  next: "Test 2 in progress",
   areas: [
     { name: "UH-1 Huey helicopter", sum: "A flyable Huey with its own controls, cockpit and sound. Testers only for now.", items: [
       ["Flying, startup and engine sound", "test", "Full spool-up before takeoff"],
@@ -149,27 +161,37 @@ const DATA = {
 };
 const STATUS = { live: "Live", test: "Testing", work: "In progress", plan: "Planned", idea: "Idea" };
 const ORDER = ["live", "test", "work", "plan", "idea"];
-let show = "all";
-try { const s = localStorage.getItem("te-filter"); if (s && (s === "all" || STATUS[s])) show = s; } catch (e) {}
+// how far along each status counts toward an area's percentage
+const WEIGHT = { live: 1, test: 0.75, work: 0.4, plan: 0.1, idea: 0 };
+let open = new Set();
+try { JSON.parse(localStorage.getItem("te-open") || "[]").forEach(n => open.add(n)); } catch (e) {}
 document.getElementById("upd").textContent = DATA.updated;
 document.getElementById("next").textContent = DATA.next;
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
-function counts() { const c = { all: 0 }; ORDER.forEach(k => c[k] = 0); DATA.areas.forEach(a => a.items.forEach(i => { c[i[1]]++; c.all++; })); return c; }
-function renderFilters() {
-  const c = counts();
-  const f = document.getElementById("filters");
-  f.innerHTML = ["all"].concat(ORDER).map(k => `<button type="button" class="chip" id="f-${k}" data-k="${k}" aria-pressed="${show === k}">${k === "all" ? "" : `<span class="dot d-${k}"></span>`}${k === "all" ? "Everything" : STATUS[k]} <span style="opacity:.6">${c[k]}</span></button>`).join("");
-  f.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { show = b.dataset.k; try { localStorage.setItem("te-filter", show); } catch (e) {} renderFilters(); renderGrid(); }));
-}
-function renderGrid() {
+function pct(a) { if (!a.items.length) return 0; let s = 0; a.items.forEach(i => s += WEIGHT[i[1]] || 0); return Math.round(100 * s / a.items.length); }
+function tally(a) { const c = {}; a.items.forEach(i => c[i[1]] = (c[i[1]] || 0) + 1); return ORDER.filter(k => c[k]).map(k => c[k] + " " + STATUS[k].toLowerCase()).join(" · "); }
+function render() {
   const g = document.getElementById("grid");
-  g.innerHTML = DATA.areas.map(a => {
-    const items = a.items.filter(i => show === "all" || i[1] === show);
-    if (!items.length && show !== "all") return "";
-    return `<section class="area"><h2>${esc(a.name)}</h2><p class="sum">${esc(a.sum)}</p><ul class="items">${items.map(i => `<li><div class="it"><span class="t">${esc(i[0])}</span>${i[2] ? `<span class="n">${esc(i[2])}</span>` : ""}</div><span class="tag s-${i[1]}">${STATUS[i[1]]}</span></li>`).join("")}</ul></section>`;
-  }).join("") || `<p class="empty">Nothing with this status right now.</p>`;
+  g.innerHTML = DATA.areas.map((a, n) => {
+    const p = pct(a), isOpen = open.has(a.name);
+    return `<section class="area${isOpen ? " open" : ""}">
+      <button type="button" class="head" id="area-${n}" aria-expanded="${isOpen}" data-name="${esc(a.name)}">
+        <h2>${esc(a.name)}</h2><span class="pct">${p}%</span>
+        <span class="bar" aria-hidden="true"><i style="width:${p}%"></i></span>
+        <span class="sub"><span>${esc(tally(a))}</span><span class="chev" aria-hidden="true">&#9662;</span></span>
+      </button>
+      ${isOpen ? `<div class="body"><p class="sum">${esc(a.sum)}</p><ul class="items">${a.items.map(i => `<li><div class="it"><span class="t">${esc(i[0])}</span>${i[2] ? `<span class="n">${esc(i[2])}</span>` : ""}</div><span class="tag s-${i[1]}">${STATUS[i[1]]}</span></li>`).join("")}</ul></div>` : ""}
+    </section>`;
+  }).join("");
+  g.querySelectorAll(".head").forEach(b => b.addEventListener("click", () => {
+    const nm = b.dataset.name;
+    if (open.has(nm)) open.delete(nm); else open.add(nm);
+    try { localStorage.setItem("te-open", JSON.stringify([...open])); } catch (e) {}
+    render();
+    const again = document.getElementById(b.id); if (again) again.focus();
+  }));
 }
-renderFilters(); renderGrid();
+render();
 </script>
 
 </body>
