@@ -97,8 +97,8 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; }
 
 <script>
 const DATA = {
-  updated: "Nov 19, 2026 (evening)",
-  next: "Test 2 in progress",
+  updated: "Nov 19, 2026 (late)",
+  next: "Test 3 done - next patch being prepared",
   areas: [
     { name: "UH-1 Huey helicopter", sum: "A flyable Huey with its own controls, cockpit and sound. Testers only for now.", items: [
       ["Flying, startup and engine sound", "test", "Full spool-up before takeoff"],
@@ -117,21 +117,26 @@ const DATA = {
       ["Mech upgrade", "test", "Lights, kick and arm cannon"],
       ["Mech aims and fires its guns properly", "work", "Gun fire is visible and audible now; aiming is next"],
       ["Mechs stay out of the trade post and HQ", "plan", "They wait in line at the sale lot"],
-      ["Carry a wolf as an inventory item", "idea", ""]
+      ["Store, pick up and revive companions", "test", "At the companion machine"],
+      ["Carry a wolf as an inventory item", "idea", ""],
+      ["Wolf fetch: throw a bone and it brings it back", "idea", ""],
+      ["Feed your wolf red meat as a treat", "idea", "A small combat boost and faster healing for a few minutes"]
     ]},
-    { name: "Kill Squad HQ", sum: "Patrols and services at the Kill Squad compound.", items: [
+    { name: "Armed friendly NPCs", sum: "Friendly armed NPCs on the Kill Squad side.", items: [
       ["Two guards with dogs patrol the HQ", "test", "Opposite directions, cross at the front and back"],
-      ["Guards fire real visible, audible shots", "test", ""],
+      ["Guards fire real visible, audible shots", "test", "Each with a fixed weapon and look"],
       ["Guards take cover and move like real fighters", "work", ""],
-      ["Clear the tall grass inside the zone", "plan", "The latest SCUM update may make this easier"]
+      ["Hire a squad of 3 to stay with you for a while", "idea", "Request help for a cost"]
     ]},
-    { name: "Kill Squad machines", sum: "Vending machines that run on Kill Squad credits.", items: [
+    { name: "Vending machines", sum: "Vending machines that run on Kill Squad credits.", items: [
       ["Machines at the HQ", "test", "Look at one to see its name, tap F to open"],
       ["Companion shop", "test", "Buy a wolf companion, build or upgrade a mech"],
       ["Exchange: sell guns for credits", "test", "Approved gun list still being set"],
+      ["Exchange: memory modules, Phoenix tear, seaplane", "test", ""],
+      ["Sell a vehicle and the used vehicle lot", "test", ""],
       ["Dark and default machine colors", "test", ""],
       ["Player vending machine", "work", "Players list their own items for sale"],
-      ["Used vehicle sale lot", "plan", ""]
+      ["Build and place your own vending machine", "idea", "One that is entirely yours"]
     ]},
     { name: "Trade Post", sum: "Vendors and life at the player trade post.", items: [
       ["Bartender", "live", "Buy and sell drinks"],
@@ -141,16 +146,24 @@ const DATA = {
       ["Vendor quest books", "plan", ""]
     ]},
     { name: "Around the server", sum: "Smaller systems that make the base feel alive.", items: [
-      ["Midnight fireworks (Night Show)", "live", ""],
+      ["Midnight fireworks (Night Show)", "test", "Being fixed after a game update"],
       ["Base power and lights stay on", "test", "Fix for a short lag spike when someone joins"],
-      ["Garden care", "work", "Tending and replanting"],
+      ["Garden care", "test", "Tending and replanting; being fixed after a game update"],
+      ["Clear the tall grass inside the Kill Squad HQ", "plan", "The latest SCUM update may make this easier"],
       ["Four scheduled bonfires", "work", ""],
       ["Wall writing and billboards", "work", ""],
-      ["Radio for your squad", "idea", "Private long-range voice for 2 or more players"],
-      ["Cell phone, texting and small map", "work", ""],
       ["Spawn hub with quest book", "plan", ""],
       ["Abandoned property recovery", "plan", ""],
       ["Hellrider Rager", "idea", ""]
+    ]},
+    { name: "Phone GPS map", sum: "Your phone (today only for quests) also shows where you are.", items: [
+      ["Hold your phone and left click to bring up a map", "idea", "The whole map, only slightly zoomed in so landmarks are easy to read, with your rough location"]
+    ]},
+    { name: "Squad voice radio", sum: "A radio for talking with your squad.", items: [
+      ["Voice chat with your squad from anywhere on the server", "idea", "You don't have to be near them"]
+    ]},
+    { name: "Vehicle CB radio", sum: "A CB radio for vehicles.", items: [
+      ["Hold a button while driving to talk to other vehicles", "idea", "Works with any vehicle that has a CB; 4 or 5 channels"]
     ]},
     { name: "Team Echo launcher", sum: "One launcher that keeps your mods up to date.", items: [
       ["Self-updating launcher", "live", "Update & Launch gets you the newest files"],
@@ -164,7 +177,7 @@ const ORDER = ["live", "test", "work", "plan", "idea"];
 // how far along each status counts toward an area's percentage
 const WEIGHT = { live: 1, test: 0.75, work: 0.4, plan: 0.1, idea: 0 };
 let open = new Set();
-try { JSON.parse(localStorage.getItem("te-open") || "[]").forEach(n => open.add(n)); } catch (e) {}
+try { const saved = JSON.parse(localStorage.getItem("te-open") || "[]"); if (saved.length) open.add(saved[0]); } catch (e) {}
 document.getElementById("upd").textContent = DATA.updated;
 document.getElementById("next").textContent = DATA.next;
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
@@ -185,7 +198,8 @@ function render() {
   }).join("");
   g.querySelectorAll(".head").forEach(b => b.addEventListener("click", () => {
     const nm = b.dataset.name;
-    if (open.has(nm)) open.delete(nm); else open.add(nm);
+    // Darren 11/19: only one area open at a time - opening another closes the first
+    if (open.has(nm)) open.clear(); else open = new Set([nm]);
     try { localStorage.setItem("te-open", JSON.stringify([...open])); } catch (e) {}
     render();
     const again = document.getElementById(b.id); if (again) again.focus();
