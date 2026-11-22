@@ -97,8 +97,8 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; }
 
 <script>
 const DATA = {
-  updated: "Nov 21, 2026",
-  next: "Test 11, Nov 21 evening",
+  updated: "Nov 22, 2026",
+  next: "Test 12",
   areas: [
     { name: "UH-1 Huey helicopter", sum: "A flyable Huey with its own controls, cockpit and sound. Testers only for now.", items: [
       ["Flying, startup and engine sound", "test", "Full spool-up before takeoff"],
@@ -110,10 +110,12 @@ const DATA = {
       ["Real passenger seats", "test", ""],
       ["Stays on the server after restarts", "test", ""],
       ["Switch panel between the front seats", "test", "Click the switches with the mouse; lights show what is on"],
-      ["Roof windows", "work", "Square glass windows in the roof"],
+      ["Roof windows", "test", "Square glass windows in the roof"],
       ["Landing light modes", "test", "Off, red, ground and full landing light"],
       ["Rappel from the back seats", "test", "Hold F at the door when low and slow"],
       ["Fuel cans and gas pumps", "test", "Two cans under the rear seats, fill up at pumps"],
+      ["Gentler landings", "test", "No more hopping after a hard landing"],
+      ["Gun racks, one gun per back seat", "plan", ""],
       ["Heater that keeps everyone inside warm", "idea", ""]
     ]},
     { name: "Companions", sum: "Pets and a mech that follow you, fight for you and ride with you.", items: [
@@ -124,6 +126,8 @@ const DATA = {
       ["Mech upgrade", "test", "Lights, kick and arm cannon"],
       ["Mech aims and fires its guns properly", "work", "Gun fire is visible and audible now; aiming is next"],
       ["Mechs stay out of the trade post and HQ", "test", "They wait in line at the sale lot"],
+      ["Mechs never hurt other players outside PvP zones", "test", ""],
+      ["Lockable mech storage", "work", ""],
       ["Store, pick up and revive companions", "test", "At the companion machine"],
       ["Carry a wolf as an inventory item", "idea", ""],
       ["Wolf fetch: throw a bone and it brings it back", "idea", ""],
@@ -147,6 +151,7 @@ const DATA = {
     ]},
     { name: "Trade Post", sum: "Vendors and life at the player trade post.", items: [
       ["Bartender", "live", "Buy and sell drinks"],
+      ["Triage doorway cleans your clothes", "test", ""],
       ["Armory and vehicle vendors", "work", "Fixing their buy lists"],
       ["What each vendor sells", "plan", "Being decided"],
       ["Farmer's market", "idea", "Sell produce in bulk, buy food, with custom quests"],
@@ -167,7 +172,8 @@ const DATA = {
       ["Hold your phone and left click to bring up a map", "idea", "The whole map, only slightly zoomed in so landmarks are easy to read, with your rough location"]
     ]},
     { name: "Squad voice radio", sum: "A radio for talking with your squad.", items: [
-      ["Voice chat with your squad from anywhere on the server", "test", "Carry a phone; you don't have to be near them"]
+      ["Voice chat with your squad from anywhere on the server", "test", "Carry a phone; you don't have to be near them"],
+      ["Push to talk with five channels", "test", "Hold ; to talk, [ and ] change channel"]
     ]},
     { name: "Vehicle CB radio", sum: "A CB radio for vehicles.", items: [
       ["CB radio for your vehicle, bought at a mechanic", "test", "5 channels; clear inside, muffled outside"],
@@ -176,7 +182,8 @@ const DATA = {
     { name: "Horse", sum: "A horse companion you can ride.", items: [
       ["Ride your horse", "test", "Walk, trot and gallop"],
       ["Walks at your side when you're on foot", "test", ""],
-      ["Buy a horse and a saddle", "test", "At the Companion Hub; no saddle means walk only"]
+      ["Buy a horse and a saddle", "test", "At the Companion Hub; no saddle means walk only"],
+      ["Stays where you leave it; lead it by the head", "test", ""]
     ]},
     { name: "Team Echo launcher", sum: "One launcher that keeps your mods up to date.", items: [
       ["Self-updating launcher", "live", "Update & Launch gets you the newest files"],
