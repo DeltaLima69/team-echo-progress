@@ -98,21 +98,21 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; }
 <script>
 const DATA = {
   updated: "Nov 22, 2026",
-  next: "Test 12",
+  next: "Test 13",
   areas: [
     { name: "UH-1 Huey helicopter", sum: "A flyable Huey with its own controls, cockpit and sound. Testers only for now.", items: [
       ["Flying, startup and engine sound", "test", "Full spool-up before takeoff"],
       ["Cockpit dash lamps and power lights", "test", "Rebuilt so they sit on the panel"],
       ["New window frame", "test", "Clean metal frame around the windshield"],
-      ["Looks right in shade", "test", "No more solid black silhouette"],
+      ["Looks right in shade", "work", "Shaded sides still too dark"],
       ["Call the Huey to you and send it home", "test", "It flies itself to you, then back to the Kill Squad roof"],
       ["Air Force gray paint", "test", ""],
-      ["Real passenger seats", "test", ""],
+      ["Real passenger seats", "test", "Five seats, picked from the Tab menu"],
       ["Stays on the server after restarts", "test", ""],
       ["Switch panel between the front seats", "test", "Click the switches with the mouse; lights show what is on"],
       ["Roof windows", "test", "Square glass windows in the roof"],
       ["Landing light modes", "test", "Off, red, ground and full landing light"],
-      ["Rappel from the back seats", "test", "Hold F at the door when low and slow"],
+      ["Rappel from the back seats", "test", "Press F at your door sill when low and slow"],
       ["Fuel cans and gas pumps", "test", "Two cans under the rear seats, fill up at pumps"],
       ["Gentler landings", "test", "No more hopping after a hard landing"],
       ["Gun racks, one gun per back seat", "plan", ""],
@@ -130,14 +130,14 @@ const DATA = {
       ["Lockable mech storage", "work", ""],
       ["Store, pick up and revive companions", "test", "At the companion machine"],
       ["Carry a wolf as an inventory item", "idea", ""],
-      ["Wolf fetch: throw a bone and it brings it back", "idea", ""],
-      ["Feed your wolf red meat as a treat", "idea", "A small combat boost and faster healing for a few minutes"]
+      ["Wolf fetch: throw a bone and it brings it back", "test", "Sascha only"],
+      ["Feed your wolf red meat as a treat", "test", "Fenrir gets a short combat boost and faster healing"]
     ]},
     { name: "Armed friendly NPCs", sum: "Friendly armed NPCs on the Kill Squad side.", items: [
       ["Two guards with dogs patrol the HQ", "test", "Opposite directions, cross at the front and back"],
       ["Guards fire real visible, audible shots", "test", "Each with a fixed weapon and look"],
       ["Guards take cover and move like real fighters", "work", ""],
-      ["Hire a squad of 3 to stay with you for a while", "idea", "Request help for a cost"]
+      ["Hire a squad of 3 to stay with you for a while", "test", "Admins only while testing"]
     ]},
     { name: "Vending machines", sum: "Vending machines that run on Kill Squad credits.", items: [
       ["Machines at the HQ", "test", "Look at one to see its name, tap F to open"],
@@ -160,7 +160,7 @@ const DATA = {
     { name: "Around the server", sum: "Smaller systems that make the base feel alive.", items: [
       ["Midnight fireworks (Night Show)", "test", "Being fixed after a game update"],
       ["Base power and lights stay on", "test", "Fix for a short lag spike when someone joins"],
-      ["Garden care", "test", "Tending and replanting; being fixed after a game update"],
+      ["Garden care", "test", "Tended once or twice a day"],
       ["Clear the tall grass inside the Kill Squad HQ", "plan", "The latest SCUM update may make this easier"],
       ["Four scheduled bonfires", "work", ""],
       ["Wall writing and billboards", "work", ""],
