@@ -98,7 +98,7 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; }
 <script>
 const DATA = {
   updated: "Nov 22, 2026",
-  next: "Test 13",
+  next: "Test 14",
   areas: [
     { name: "UH-1 Huey helicopter", sum: "A flyable Huey with its own controls, cockpit and sound. Testers only for now.", items: [
       ["Flying, startup and engine sound", "test", "Full spool-up before takeoff"],
@@ -107,7 +107,7 @@ const DATA = {
       ["Looks right in shade", "work", "Shaded sides still too dark"],
       ["Call the Huey to you and send it home", "test", "It flies itself to you, then back to the Kill Squad roof"],
       ["Air Force gray paint", "test", ""],
-      ["Real passenger seats", "test", "Five seats, picked from the Tab menu"],
+      ["Real passenger seats", "test", "Five seats - look at one and press F, or use Tab"],
       ["Stays on the server after restarts", "test", ""],
       ["Switch panel between the front seats", "test", "Click the switches with the mouse; lights show what is on"],
       ["Roof windows", "test", "Square glass windows in the roof"],
@@ -124,10 +124,10 @@ const DATA = {
       ["Homes for companions", "test", "They go home when you log out and come back when you join"],
       ["Mech companion", "test", "Built at the Kill Squad machine from scrap and parts"],
       ["Mech upgrade", "test", "Lights, kick and arm cannon"],
-      ["Mech aims and fires its guns properly", "work", "Gun fire is visible and audible now; aiming is next"],
+      ["Mech aims and fires its guns properly", "work", "One shot sound per burst; raising the gun is next"],
       ["Mechs stay out of the trade post and HQ", "test", "They wait in line at the sale lot"],
       ["Mechs never hurt other players outside PvP zones", "test", ""],
-      ["Lockable mech storage", "work", ""],
+      ["Lockable mech storage", "test", "Owner only unless unlocked"],
       ["Store, pick up and revive companions", "test", "At the companion machine"],
       ["Carry a wolf as an inventory item", "idea", ""],
       ["Wolf fetch: throw a bone and it brings it back", "test", "Sascha only"],
@@ -136,7 +136,7 @@ const DATA = {
     { name: "Armed friendly NPCs", sum: "Friendly armed NPCs on the Kill Squad side.", items: [
       ["Two guards with dogs patrol the HQ", "test", "Opposite directions, cross at the front and back"],
       ["Guards fire real visible, audible shots", "test", "Each with a fixed weapon and look"],
-      ["Guards take cover and move like real fighters", "work", ""],
+      ["Guards take cover and move like real fighters", "test", "Against armed NPCs"],
       ["Hire a squad of 3 to stay with you for a while", "test", "Admins only while testing"]
     ]},
     { name: "Vending machines", sum: "Vending machines that run on Kill Squad credits.", items: [
@@ -151,14 +151,14 @@ const DATA = {
     ]},
     { name: "Trade Post", sum: "Vendors and life at the player trade post.", items: [
       ["Bartender", "live", "Buy and sell drinks"],
-      ["Triage doorway cleans your clothes", "test", ""],
+      ["Sterilization zone cleans your clothes", "work", "Stand in the Triage doorway for 3 seconds"],
       ["Armory and vehicle vendors", "work", "Fixing their buy lists"],
       ["What each vendor sells", "plan", "Being decided"],
       ["Farmer's market", "idea", "Sell produce in bulk, buy food, with custom quests"],
       ["Vendor quest books", "plan", ""]
     ]},
     { name: "Around the server", sum: "Smaller systems that make the base feel alive.", items: [
-      ["Midnight fireworks (Night Show)", "test", "Being fixed after a game update"],
+      ["Midnight fireworks (Night Show)", "test", "Crash risk removed"],
       ["Base power and lights stay on", "test", "Fix for a short lag spike when someone joins"],
       ["Garden care", "test", "Tended once or twice a day"],
       ["Clear the tall grass inside the Kill Squad HQ", "plan", "The latest SCUM update may make this easier"],
