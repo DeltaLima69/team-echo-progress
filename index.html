@@ -79,7 +79,8 @@ ul.items li { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; pad
 footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; }
 /* (11/27) launcher download panel in the header band */
 .get { display: grid; grid-template-columns: auto 1fr; gap: 12px 22px; align-items: center; margin-top: 6px; padding: 16px 18px; background: #252d37; border: 1px solid #36424f; border-radius: 10px; }
-@media (max-width: 680px) { .get { grid-template-columns: 1fr; } }
+@media (max-width: 680px) { .get { grid-template-columns: minmax(0, 1fr); padding: 14px; } .dl { white-space: normal; font-size: 15px; padding: 12px 14px; } }
+.get > div { min-width: 0; }
 .dl { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: #2f74d8; color: #fff; font: 600 16px var(--body); padding: 13px 20px; border-radius: 8px; text-decoration: none; white-space: nowrap; }
 .dl:hover { background: #3c84ec; } .dl:focus-visible { outline: 2px solid #8fb6f2; outline-offset: 3px; }
 .dl svg { width: 18px; height: 18px; flex: none; }
