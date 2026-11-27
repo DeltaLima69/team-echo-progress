@@ -124,72 +124,72 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; }
 <script>
 const DATA = {
   updated: "Nov 27, 2026",
-  next: "Test 15",
+  next: "Test 16",
   areas: [
-    { name: "UH-1 Huey helicopter", sum: "A flyable Huey with its own controls, cockpit and sound. Testers only for now.", items: [
-      ["Flying, startup and engine sound", "test", "Full spool-up before takeoff"],
+    { name: "UH-1 Huey helicopter", sum: "A flyable Huey with its own controls, cockpit and sound. Everyone can ride; flying is admins only while testing.", items: [
+      ["Flying, startup and engine sound", "test", "Tap H for power, hold H to start or stop the engine. Full spool-up before takeoff"],
       ["Cockpit dash lamps and power lights", "test", "Rebuilt so they sit on the panel"],
-      ["New window frame", "test", "Clean metal frame around the windshield"],
+      ["Windshield frame", "live", "Clean metal frame around the windshield"],
       ["Looks right in shade", "work", "Shaded sides still too dark"],
-      ["Call the Huey to you and send it home", "test", "It flies itself to you, then back to the Kill Squad roof"],
+      ["Call the Huey to you and send it home", "test", "Admins only for now: it flies itself to you, then back to the Kill Squad roof"],
       ["Air Force gray paint", "test", ""],
-      ["Real passenger seats", "test", "Five seats - look at one and press F, or use Tab"],
+      ["Six seats", "test", "Look at a seat and press F to sit"],
       ["Stays on the server after restarts", "test", ""],
-      ["Switch panel between the front seats", "test", "Click the switches with the mouse; lights show what is on"],
+      ["Switch panel between the front seats", "test", "Pilot seat: middle mouse at the panel, then click the switches; lights show what is on"],
       ["Roof windows", "test", "Square glass windows in the roof"],
-      ["Landing light modes", "test", "Off, red, ground and full landing light"],
-      ["Rappel from the back seats", "test", "Press F at your door sill when low and slow"],
-      ["Fuel cans and gas pumps", "test", "Two cans under the rear seats, fill up at pumps"],
+      ["Landing light modes", "test", "OFF, RED, GROUND and ON"],
+      ["Rappel from the back seats", "test", "Under 120 ft and slow: look down at your door sill and hold F"],
+      ["Fuel cans and gas pumps", "test", "Store a fuel can under each rear seat with F; fill up at gas pumps"],,
       ["Gentler landings", "test", "No more hopping after a hard landing"],
       ["Gun racks, one gun per back seat", "plan", ""],
       ["Heater that keeps everyone inside warm", "idea", ""]
     ]},
-    { name: "Companions", sum: "Pets and a mech that follow you, fight for you and ride with you.", items: [
-      ["Non-combat and combat wolf companions", "test", "Follow, stay, guard, ride in a Rager bed and the Huey"],
+    { name: "Companions", sum: "Wolves and a mech that follow you, fight for you and wait at home.", items: [
+      ["Wolf companions: Sascha and Fenrir", "test", "Fenrir fights. Both follow, stay, guard and ride in a vehicle bed or the Huey"],
       ["Companion menu", "test", "Hold F on your companion. Includes Go home"],
-      ["Homes for companions", "test", "They go home when you log out and come back when you join"],
-      ["Mech companion", "test", "Built at the Kill Squad machine from scrap and parts"],
-      ["Mech upgrade", "test", "Lights, kick and arm cannon"],
+      ["Homes for companions", "test", "They wait at home while you are offline"],
+      ["Mech companion", "test", "Build it from parts at the Companion Hub"],
+      ["Mech upgrades", "test", "Lights, arm cannon, kick and storage, one at a time"],
       ["Mech aims and fires its guns properly", "work", "One shot sound per burst; raising the gun is next"],
-      ["Mechs stay out of the trade post and HQ", "test", "They wait in line at the sale lot"],
-      ["Mechs never hurt other players outside PvP zones", "test", ""],
+      ["Mechs stay out of the trade post and HQ", "live", "They wait in line at the sale lot"],
+      ["Companions never hurt other players outside PvP zones", "test", ""],
       ["Lockable mech storage", "test", "Owner only unless unlocked"],
-      ["Store, pick up and revive companions", "test", "At the companion machine"],
+      ["Store, pick up and revive companions", "test", "At the Companion Hub"],
       ["Carry a wolf as an inventory item", "idea", ""],
-      ["Wolf fetch: throw a bone and it brings it back", "test", "Sascha only"],
-      ["Feed your wolf red meat as a treat", "test", "Fenrir gets a short combat boost and faster healing"]
+      ["Sascha's favorite bone", "test", "Throw it and Sascha brings it back"],
+      ["Good wolf treat", "test", "Red meat; Fenrir gets a short combat boost and faster healing"]
     ]},
     { name: "Armed friendly NPCs", sum: "Friendly armed NPCs on the Kill Squad side.", items: [
       ["Two guards with dogs patrol the HQ", "test", "Opposite directions, cross at the front and back"],
       ["Guards fire real visible, audible shots", "test", "Each with a fixed weapon and look"],
       ["Guards take cover and move like real fighters", "test", "Against armed NPCs"],
-      ["Hire a squad of 3 to stay with you for a while", "test", "Admins only while testing"]
+      ["Hire a squad of 3 to stay with you for a while", "test", "At the Companion Hub; admins only while testing"]
     ]},
-    { name: "Vending machines", sum: "Vending machines that run on Kill Squad credits.", items: [
-      ["Machines at the HQ", "test", "Look at one to see its name, tap F to open"],
-      ["Companion shop", "test", "Buy a wolf companion, build or upgrade a mech"],
-      ["Exchange: sell guns for credits", "test", "Approved gun list still being set"],
-      ["Exchange: memory modules, Phoenix tear, seaplane", "test", ""],
+    { name: "Vending machines", sum: "Vending machines for credits, companions and player sales.", items: [
+      ["Three vending machines", "test", "Look at one to see its name, tap F to open"],
+      ["Companion Hub", "test", "Testers for now: buy Sascha or Fenrir, a horse and saddle; build and upgrade a mech"],
+      ["Exchange: sell guns for credits", "test", "Approved guns in good condition only"],
+      ["Exchange: Barrett, memory modules, Phoenix tear, seaplane", "test", "Seaplane coming soon"],,
       ["Sell a vehicle and the used vehicle lot", "test", ""],
-      ["Dark and default machine colors", "test", ""],
+      ["Dark and Default machine skins", "test", ""],
       ["Player vending machine", "test", "Players list their own items for sale, with auctions"],
       ["Build and place your own vending machine", "idea", "One that is entirely yours"]
     ]},
     { name: "Trade Post", sum: "Vendors and life at the player trade post.", items: [
-      ["Bartender", "live", "Buy and sell drinks"],
-      ["Sterilization zone cleans your clothes", "work", "Stand in the Triage doorway for 3 seconds"],
-      ["Armory and vehicle vendors", "work", "Fixing their buy lists"],
+      ["Trade post bartender", "test", "Phoenix Tears not on sale yet"],
+      ["Sterilization zone cleans your clothes", "test", "Stand in the Triage doorway for 3 seconds"],
+      ["Trade post armorer and mechanic", "test", "Bought vehicles appear at the vehicle spawn point"],
       ["What each vendor sells", "plan", "Being decided"],
       ["Farmer's market", "idea", "Sell produce in bulk, buy food, with custom quests"],
       ["Vendor quest books", "plan", ""]
     ]},
     { name: "Around the server", sum: "Smaller systems that make the base feel alive.", items: [
-      ["Midnight fireworks (Night Show)", "test", "Crash risk removed"],
-      ["Base power and lights stay on", "test", "Fix for a short lag spike when someone joins"],
-      ["Garden care", "test", "Tended once or twice a day"],
-      ["Clear the tall grass inside the Kill Squad HQ", "plan", "The latest SCUM update may make this easier"],
+      ["Midnight fireworks (Night Show)", "work", "Turned off for now"],
+      ["Base power, lights and turret ammo", "test", "Generators refuelled, turrets topped up"],
+      ["Garden care", "work", "Not working yet"],
+      ["Tall grass cleared inside the Kill Squad HQ", "live", ""],
       ["Four scheduled bonfires", "work", ""],
-      ["Wall writing and billboards", "work", ""],
+      ["Wall writing and billboards", "plan", ""],
       ["Spawn hub with quest book", "plan", ""],
       ["Abandoned property recovery", "plan", ""],
       ["Hellrider Rager", "idea", ""]
@@ -205,11 +205,10 @@ const DATA = {
       ["CB radio for your vehicle, bought at a mechanic", "test", "5 channels; clear inside, muffled outside"],
       ["Fits the Rager, Wolfswagen and Laika", "test", "F9 in the driver seat opens the CB page"]
     ]},
-    { name: "Horse", sum: "A horse companion you can ride.", items: [
+    { name: "Horse", sum: "A horse you can buy, ride and lead.", items: [
       ["Ride your horse", "test", "Walk, trot and gallop"],
-      ["Walks at your side when you're on foot", "test", ""],
       ["Buy a horse and a saddle", "test", "At the Companion Hub; no saddle means walk only"],
-      ["Stays where you leave it; lead it by the head", "test", ""]
+      ["Stays where you leave it", "test", "Press F at its head to lead it; led, it walks at your side"]
     ]},
     { name: "Team Echo launcher", sum: "One launcher that keeps your mods up to date.", items: [
       ["Self-updating launcher", "live", "Update & Launch gets you the newest files"],
