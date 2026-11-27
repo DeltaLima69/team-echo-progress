@@ -77,6 +77,20 @@ ul.items li { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; pad
 .s-idea { color: var(--idea); background: var(--idea-bg); } .d-idea { background: var(--idea); }
 .empty { color: var(--muted); font-size: 14px; padding: 10px 0; }
 footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; }
+/* (11/27) launcher download panel in the header band */
+.get { display: grid; grid-template-columns: auto 1fr; gap: 12px 22px; align-items: center; margin-top: 6px; padding: 16px 18px; background: #252d37; border: 1px solid #36424f; border-radius: 10px; }
+@media (max-width: 680px) { .get { grid-template-columns: 1fr; } }
+.dl { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: #2f74d8; color: #fff; font: 600 16px var(--body); padding: 13px 20px; border-radius: 8px; text-decoration: none; white-space: nowrap; }
+.dl:hover { background: #3c84ec; } .dl:focus-visible { outline: 2px solid #8fb6f2; outline-offset: 3px; }
+.dl svg { width: 18px; height: 18px; flex: none; }
+.get p { margin: 0; color: #c9d2dd; font-size: 14px; }
+.get p + p { margin-top: 6px; }
+.get .only { color: var(--band-ink); font-weight: 600; }
+.join { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.join code { font: 500 14px var(--mono); color: var(--band-ink); background: #1a2028; border: 1px solid #36424f; border-radius: 5px; padding: 3px 8px; }
+.copy { font: 600 12px var(--body); color: #c9d2dd; background: transparent; border: 1px solid #4a5868; border-radius: 5px; padding: 4px 10px; cursor: pointer; }
+.copy:hover { border-color: #8fb6f2; color: #fff; } .copy:focus-visible { outline: 2px solid #8fb6f2; outline-offset: 2px; }
+.get .small { font-size: 12.5px; color: #9fabba; }
 @media (prefers-reduced-motion: no-preference) { section.area { transition: opacity .15s; } }
 </style>
 
@@ -84,8 +98,19 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; }
   <div class="wrap">
     <div class="eyebrow">Team Echo &middot; SCUM server</div>
     <h1>Mod Progress</h1>
-    <p class="lede">What we're building for the server, and where each piece stands. Things marked Testing are currently on the server, available to testers and not yet ready for all players.</p>
+    <p class="lede">What we're building for the server, and where each piece stands. Things marked Testing are on the server and still being checked.</p>
     <div class="meta"><span>Updated <b id="upd"></b></span><span>Next test: <b id="next"></b></span></div>
+    <div class="get">
+      <a class="dl" href="https://github.com/DeltaLima69/team-echo-releases/releases/download/launcher/Team-Echo-SCUM.exe">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        Download the Team Echo launcher
+      </a>
+      <div>
+        <p><span class="only">For the Team Echo PVE Server only.</span> Installs the server's mods, keeps them up to date and starts SCUM.</p>
+        <p class="join">Server: <code id="addr">63.143.56.147:7002</code> <button type="button" class="copy" id="copy">Copy</button></p>
+        <p class="small">Press Launch in the launcher, then join the server the same way as before. Starting SCUM from Steam stays plain SCUM. If Windows says "Windows protected your PC", click More info, then Run anyway.</p>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -97,8 +122,8 @@ footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; }
 
 <script>
 const DATA = {
-  updated: "Nov 22, 2026",
-  next: "Test 14",
+  updated: "Nov 27, 2026",
+  next: "Test 15",
   areas: [
     { name: "UH-1 Huey helicopter", sum: "A flyable Huey with its own controls, cockpit and sound. Testers only for now.", items: [
       ["Flying, startup and engine sound", "test", "Full spool-up before takeoff"],
@@ -187,8 +212,11 @@ const DATA = {
     ]},
     { name: "Team Echo launcher", sum: "One launcher that keeps your mods up to date.", items: [
       ["Self-updating launcher", "live", "Update & Launch gets you the newest files"],
+      ["Every player gets the server's mods", "live", "No tester password needed to play"],
+      ["Mods only load when started from the launcher", "live", "Starting SCUM from Steam stays plain SCUM"],
+      ["Build notes", "live", "What changed in each update, in the launcher"],
       ["Test features list for testers", "live", "Shows what to try and what to report"],
-      ["Report a problem from the launcher", "work", ""]
+      ["Report a problem from the launcher", "live", "Testers only"]
     ]}
   ]
 };
@@ -226,6 +254,11 @@ function render() {
   }));
 }
 render();
+document.getElementById("copy").addEventListener("click", function () {
+  const b = this, t = document.getElementById("addr").textContent;
+  const done = () => { b.textContent = "Copied"; setTimeout(() => { b.textContent = "Copy"; }, 1500); };
+  try { navigator.clipboard.writeText(t).then(done, () => { b.textContent = "Select and copy"; }); } catch (e) { b.textContent = "Select and copy"; }
+});
 </script>
 
 </body>
